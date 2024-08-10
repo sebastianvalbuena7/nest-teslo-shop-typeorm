@@ -1,14 +1,18 @@
-import { BadRequestException, Controller, Get, Param, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Injectable, Param, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileFilter } from './helpers/fileFilter.helper';
 import { diskStorage } from 'multer';
 import { fileNamer } from './helpers/fileNamer.helper';
 import { Response } from 'express';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('files')
 export class FilesController {
-  constructor(private readonly filesService: FilesService) { }
+  constructor(
+    private readonly filesService: FilesService,
+    private readonly configService: ConfigService
+  ) { }
 
   // * Obtener archivo
   @Get('product/:imageName')
@@ -35,7 +39,10 @@ export class FilesController {
     if (!file)
       throw new BadRequestException('Make sure the file is a image');
 
-    const secureUrl = `${file.filename}`;
+    // const secureUrl = `${file.filename}`;
+
+    // Usar variables de entorno, se debe importar ConfigModule en el modulo
+    const secureUrl = `${this.configService.get('HOST_API')}/files/product/${file.filename}`;
 
     return {
       secureUrl
