@@ -49,6 +49,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     //   }
     // })
   ],
+  // ! Para usar la autenticacion de este modulo se tienen que exportar todos estos modulso
   exports: [TypeOrmModule, JwtStrategy, PassportModule, JwtModule]
 })
 export class AuthModule { }

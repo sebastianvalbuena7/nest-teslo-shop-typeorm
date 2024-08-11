@@ -18,13 +18,13 @@ export class SeedService {
 
     const products: SeedProduct[] = initialData.products;
 
-    const inserPromises = [];
+    const insertPromises = [];
 
-    products.forEach(product => {
-      inserPromises.push(this.productService.create(product));
-    });
+    // products.forEach(product => {
+    //   insertPromises.push(this.productService.create(product));
+    // });
 
-    const results = await Promise.all(inserPromises);
+    await Promise.all(insertPromises);
 
     return true;
   }
